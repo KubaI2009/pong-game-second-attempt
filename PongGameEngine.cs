@@ -1,4 +1,4 @@
-namespace PongGameRoot;
+namespace PongGameSecondAttempt;
 
 public partial class PongGameEngine : Form
 {

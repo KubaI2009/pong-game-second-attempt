@@ -1,4 +1,4 @@
-﻿namespace PongGameRoot.util;
+﻿namespace PongGameSecondAttempt.util;
 
 public class CardinalDirection
 {
@@ -14,8 +14,8 @@ public class CardinalDirection
 
     public static readonly CardinalDirection West = new CardinalDirection("west", s_WestNormalizedVelocity, s_NorthNormalizedVelocity);
     public static readonly CardinalDirection North = new CardinalDirection("north", s_NorthNormalizedVelocity, s_NorthReboundCoefficient);
-    private static readonly CardinalDirection East = new CardinalDirection("east", s_EastNormalizedVelocity, s_EastReboundCoefficient);
-    private static readonly CardinalDirection South = new CardinalDirection("south", s_SouthNormalizedVelocity, s_SouthReboundCoefficient);
+    public static readonly CardinalDirection East = new CardinalDirection("east", s_EastNormalizedVelocity, s_EastReboundCoefficient);
+    public static readonly CardinalDirection South = new CardinalDirection("south", s_SouthNormalizedVelocity, s_SouthReboundCoefficient);
     
     public string Name { get; private set; }
     public Vector2Int NormalizedVelocity { get; private set; }

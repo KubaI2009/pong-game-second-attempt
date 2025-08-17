@@ -1,4 +1,4 @@
-﻿namespace PongGameRoot.util;
+﻿namespace PongGameSecondAttempt.util;
 
 public class Vector2Int(int x, int y)
 {
@@ -48,6 +48,11 @@ public class Vector2Int(int x, int y)
     public override int GetHashCode()
     {
         return HashCode.Combine(X, Y);
+    }
+
+    public Vector2Int Copy()
+    {
+        return new Vector2Int(X, Y);
     }
 
     public static Vector2Int Sum(Vector2Int v1, Vector2Int v2)

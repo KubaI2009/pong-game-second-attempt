@@ -1,4 +1,4 @@
-﻿namespace PongGameRoot;
+﻿namespace PongGameSecondAttempt;
 
 partial class PongGameEngine
 {

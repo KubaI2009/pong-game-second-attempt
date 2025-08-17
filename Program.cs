@@ -1,4 +1,4 @@
-namespace PongGameRoot;
+namespace PongGameSecondAttempt;
 
 static class Program
 {
