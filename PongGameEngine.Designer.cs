@@ -133,6 +133,7 @@ partial class PongGameEngine
 
     private void AddVelocityCorrection()
     {
+        KeyDown += VelocityCorrectionEvent;
         KeyUp += VelocityCorrectionEvent;
     }
 
