@@ -1,29 +1,34 @@
-﻿namespace PongGameSecondAttempt.util;
+﻿namespace PongGameSecondAttempt.util.obstacle;
 
-public class Obstacle(Board board, int x, int y, int width, int height)
+public abstract class Obstacle(Board board, string name, int x, int y, int width, int height)
 {
     public Board Board { get; protected set; } = board;
+    public string Name { get; protected set; } = name;
     public Vector2Int Position { get; set; } = new(x, y);
     public Vector2Int Size { get; set; } = new(width, height);
 
     public int X
     {
         get => Position.X;
+        set => Position.X = value;
     }
 
     public int Y
     {
         get => Position.Y;
+        set => Position.Y = value;
     }
 
     public int Width
     {
         get => Size.X;
+        set => Size.X = value;
     }
 
     public int Height
     {
         get => Size.Y;
+        set => Size.Y = value;
     }
     
     public int West
@@ -54,4 +59,11 @@ public class Obstacle(Board board, int x, int y, int width, int height)
     }
     
     public virtual void Update() { }
+    
+    public virtual void Affect(Obstacle other) { }
+
+    public override string ToString()
+    {
+        return $"Obstacle(Name = {Name}, Position = {Position}, Size = {Size})";
+    }
 }

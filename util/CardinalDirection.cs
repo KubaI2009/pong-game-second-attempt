@@ -1,6 +1,6 @@
 ﻿namespace PongGameSecondAttempt.util;
 
-public class CardinalDirection
+public struct CardinalDirection
 {
     private static readonly Vector2Int s_WestNormalizedVelocity = new Vector2Int(-1, 0);
     private static readonly Vector2Int s_NorthNormalizedVelocity = new Vector2Int(0, -1);
@@ -12,10 +12,10 @@ public class CardinalDirection
     private static readonly Vector2Int s_EastReboundCoefficient = new Vector2Int(-1, 1);
     private static readonly Vector2Int s_SouthReboundCoefficient = new Vector2Int(1, -1);
 
-    public static readonly CardinalDirection West = new CardinalDirection("west", s_WestNormalizedVelocity, s_NorthNormalizedVelocity);
-    public static readonly CardinalDirection North = new CardinalDirection("north", s_NorthNormalizedVelocity, s_NorthReboundCoefficient);
-    public static readonly CardinalDirection East = new CardinalDirection("east", s_EastNormalizedVelocity, s_EastReboundCoefficient);
-    public static readonly CardinalDirection South = new CardinalDirection("south", s_SouthNormalizedVelocity, s_SouthReboundCoefficient);
+    public static CardinalDirection West => new("west", s_WestNormalizedVelocity, s_WestReboundCoefficient);
+    public static CardinalDirection North => new("north", s_NorthNormalizedVelocity, s_NorthReboundCoefficient);
+    public static CardinalDirection East => new("east", s_EastNormalizedVelocity, s_EastReboundCoefficient);
+    public static CardinalDirection South => new("south", s_SouthNormalizedVelocity, s_SouthReboundCoefficient);
     
     public string Name { get; private set; }
     public Vector2Int NormalizedVelocity { get; private set; }
@@ -26,5 +26,10 @@ public class CardinalDirection
         Name = name;
         NormalizedVelocity = normalizedVelocity;
         ReboundCoefficient = reboundCoefficient;
+    }
+
+    public override string ToString()
+    {
+        return $"CardinalDirection(Name = {Name}, NormalizedVelocity = {NormalizedVelocity}, ReboundCoefficient = {ReboundCoefficient})";
     }
 }
