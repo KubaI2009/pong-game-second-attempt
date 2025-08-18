@@ -21,7 +21,22 @@ public class RacketObstacle : BasicRenderableMovingObstacle
     }
     
     public RacketObstacle(Board board, string name, int x, int y, int width, int height) : this(board, name, x, y, width, height, 1) { }
-    
+
+    protected override void OnHit(HashSet<CardinalDirection> reboundDirections)
+    {
+        Velocity = Vector2Int.Zero;
+    }
+
+    public virtual void Update()
+    {
+        if (Rebound())
+        {
+            return;
+        }
+        
+        Move();
+    }
+
     public void StartMoving(CardinalDirection? direction)
     {
         if (direction == null)

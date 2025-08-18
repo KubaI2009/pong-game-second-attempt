@@ -6,17 +6,32 @@ public abstract class MovingObstacle(Board board, string name, int x, int y, int
 
     public virtual void Move()
     {
-        (HashSet<CardinalDirection> reboundDirections, Vector2Int reboundCoordinates) = GetReboundDirections();
+        Position.Add(Velocity);
+    }
+
+    public virtual bool Rebound()
+    {
+        HashSet<CardinalDirection> reboundDirections = GetReboundDirections();
+
+        if (reboundDirections.Count > 0)
+        {
+            OnHit(reboundDirections);
+            
+            return true;
+        }
         
+        return false;
+    }
+
+    protected virtual void OnHit(HashSet<CardinalDirection> reboundDirections)
+    {
         foreach (CardinalDirection direction in reboundDirections)
         {
             Velocity.Rebound(direction);
         }
-        
-        Position.Add(Velocity);
     }
 
-    private (HashSet<CardinalDirection> directions, Vector2Int coordinates) GetReboundDirections()
+    private HashSet<CardinalDirection> GetReboundDirections()
     {
         int coordinateIndex = 0;
         HashSet<CardinalDirection> directions = new HashSet<CardinalDirection>();
@@ -32,7 +47,7 @@ public abstract class MovingObstacle(Board board, string name, int x, int y, int
             directions.Add(direction);
         }
         
-        return (directions, new Vector2Int(newWest, newNorth));
+        return directions;
     }
 
     private HashSet<CardinalDirection> GetReboundDirectionsForCoordinates(int newWest, int newNorth, int newEast, int newSouth)
@@ -45,7 +60,7 @@ public abstract class MovingObstacle(Board board, string name, int x, int y, int
             
             if (reboundDirections.Count > 0)
             {
-                OnRebound(obstacle);
+                Affect(obstacle);
             }
             
             foreach (CardinalDirection direction in reboundDirections)
@@ -62,10 +77,9 @@ public abstract class MovingObstacle(Board board, string name, int x, int y, int
     public override void Update()
     {
         base.Update();
+        Rebound();
         Move();
     }
-    
-    public virtual void OnRebound(Obstacle obstacle) { }
 
     private static HashSet<CardinalDirection> GetReboundDirectionsForObstacle(int newWest, int newNorth, int newEast, int newSouth, Obstacle obstacle)
     {

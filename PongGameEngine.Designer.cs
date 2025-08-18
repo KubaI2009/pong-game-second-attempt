@@ -6,6 +6,8 @@ namespace PongGameSecondAttempt;
 
 partial class PongGameEngine
 {
+    private static int s_one = 1;
+    
     private System.Timers.Timer _timer;
     private long _ticks;
     
@@ -102,22 +104,19 @@ partial class PongGameEngine
         Board = new Board(this);
         
         //invisible walls initialization
-        Board.AddObstacle(new InvisibleWallObstacle(Board, "wWest", BoardX - WallSize, BoardY, WallSize, BoardHeight));
-        Board.AddObstacle(new InvisibleWallObstacle(Board, "wNorth", BoardX - WallSize, BoardY - WallSize, BoardWidth + 2 * WallSize, WallSize));
-        Board.AddObstacle(new InvisibleWallObstacle(Board, "wEast", BoardX + BoardWidth, BoardY, WallSize, BoardHeight));
-        Board.AddObstacle(new InvisibleWallObstacle(Board, "wSouth", BoardX - WallSize, BoardY + BoardHeight, BoardWidth + 2 * WallSize, WallSize));
+        AddWalls(RacketVelocityCoefficient);
         
         //Board.AddObstacle(new InvisibleWallObstacle(Board, "wTest", BoardX + BoardWidth / 2, BoardY + BoardHeight / 2, BoardWidth / 2, WallSize));
         
         //racket initialization
-        _westRacket = new RacketObstacle(Board, "rWest", BoardX, BoardY + (BoardHeight - RacketHeight) / 2, RacketWidth, RacketHeight, RacketVelocityCoefficient);
-        _eastRacket = new RacketObstacle(Board, "rEast", BoardX + BoardWidth - RacketWidth, BoardY + (BoardHeight - RacketHeight) / 2, RacketWidth, RacketHeight, RacketVelocityCoefficient);
+        _westRacket = new RacketObstacle(Board, "rWest", BoardX + s_one, BoardY + (BoardHeight - RacketHeight) / 2, RacketWidth, RacketHeight, RacketVelocityCoefficient);
+        _eastRacket = new RacketObstacle(Board, "rEast", BoardX + BoardWidth - RacketWidth - s_one, BoardY + (BoardHeight - RacketHeight) / 2, RacketWidth, RacketHeight, RacketVelocityCoefficient);
             
         Board.AddObstacle(_westRacket);
         Board.AddObstacle(_eastRacket);
         
         //pong ball initialization
-        Board.AddObstacle(new PongBallObstacle(Board, "pongBall", BoardX + RacketWidth, BoardY + BoardHeight / 2, BallSize, BallSize, new Vector2Int(1, 1)));
+        Board.AddObstacle(new PongBallObstacle(Board, "pongBall", BoardX + RacketWidth + s_one, BoardY + BoardHeight / 2, BallSize, BallSize, new Vector2Int(1, 1)));
 
         //rendering
         RenderObstacles();
@@ -129,6 +128,46 @@ partial class PongGameEngine
         InitTimer();
         
         ResumeLayout();
+    }
+
+    private void AddWalls(int count)
+    {
+        AddWestWalls(1);
+        AddNorthWalls(RacketVelocityCoefficient);
+        AddEastWalls(1);
+        AddSouthWalls(RacketVelocityCoefficient);
+    }
+
+    private void AddWestWalls(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Board.AddObstacle(new InvisibleWallObstacle(Board, $"wWest{i}", BoardX - WallSize - i, BoardY, WallSize, BoardHeight));
+        }
+    }
+
+    private void AddNorthWalls(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Board.AddObstacle(new InvisibleWallObstacle(Board, $"wNorth{i}", BoardX - WallSize, BoardY - WallSize - i, BoardWidth + 2 * WallSize, WallSize));
+        }
+    }
+
+    private void AddEastWalls(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Board.AddObstacle(new InvisibleWallObstacle(Board, $"wEast{i}", BoardX + BoardWidth + i, BoardY, WallSize, BoardHeight));
+        }
+    }
+
+    private void AddSouthWalls(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Board.AddObstacle(new InvisibleWallObstacle(Board, $"wSouth{i}", BoardX - WallSize, BoardY + BoardHeight + i, BoardWidth + 2 * WallSize, WallSize));
+        }
     }
 
     private void AddVelocityCorrection()
@@ -183,8 +222,10 @@ partial class PongGameEngine
     {
         _ticks++;
 
-        //Console.WriteLine(_ticks);
+        //Console.Write(_ticks);
         
         Update();
+
+        //Console.WriteLine();
     }
 }
